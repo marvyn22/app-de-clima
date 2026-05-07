@@ -36,20 +36,19 @@ export default function App() {
       const data = await response.json();
 
       setClima({
-        nome: data.name,
-        temperatura: data.main.temp,
-        sensacao: data.main.feels_like,
-        descricao: data.weather[0].description,
-        umidade: data.main.humidity,
-        vento: data.wind.speed,
+        nome: data.name || cidade,
+        temperatura: data.main?.temp ?? 'N/A',
+        sensacao: data.main?.feels_like ?? 'N/A',
+        descricao: data.weather?.[0]?.description ?? 'Não disponível',
+        umidade: data.main?.humidity ?? 'N/A',
+        vento: data.wind?.speed ?? 'N/A',
       });
-
     } catch (error) {
       Alert.alert('Erro', 'Falha ao buscar dados. Verifique a cidade ou sua conexão.');
       setClima(null);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   // 🔥 Executa automaticamente ao abrir o app
